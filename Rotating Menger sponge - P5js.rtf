@@ -1,0 +1,52 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2821
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8400\viewkind0
+\pard\tx720\tx1440\tx2160\tx2880\tx3600\tx4320\tx5040\tx5760\tx6480\tx7200\tx7920\tx8640\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 let depth = 3; // Recursion depth\
+\
+function setup() \{\
+  createCanvas(600, 600, WEBGL);\
+  noStroke();\
+\}\
+\
+function draw() \{\
+  background(0);\
+  rotateY(frameCount * 0.01); // Rotate for a better view\
+  rotateX(frameCount * 0.01);\
+\
+  // Draw the Menger Sponge\
+  mengerSponge(0, 0, 0, 200, depth);\
+\}\
+\
+function mengerSponge(x, y, z, size, depth) \{\
+  if (depth === 0) \{\
+    push();\
+    stroke(115, 104, 59,60);\
+    noFill();\
+    translate(x, y, z);\
+    box(size);\
+    pop();\
+    return;\
+  \}\
+\
+  let newSize = size / 3;\
+  for (let i = -1; i <= 1; i++) \{\
+    for (let j = -1; j <= 1; j++) \{\
+      for (let k = -1; k <= 1; k++) \{\
+        // Skip the center parts\
+        if (abs(i) + abs(j) + abs(k) > 1) \{\
+          mengerSponge(\
+            x + i * newSize,\
+            y + j * newSize,\
+            z + k * newSize,\
+            newSize,\
+            depth - 1\
+          );\
+        \}\
+      \}\
+    \}\
+  \}\
+\}}
